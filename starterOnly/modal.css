@@ -210,11 +210,11 @@ input {
 }
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.4em;
+  font-size: 0.5em;
   color: #e54858;
   display: block;
   margin-top: 7px;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
   text-align: right;
   line-height: 0.3;
   opacity: 0;
@@ -473,6 +473,13 @@ input[data-error]::after {
 .hero-section > .btn-signup {
   display: none;
 }
+.confirmation-message {
+  font-size: 1.5rem;
+  color: white;
+  background-color: #232323;
+  padding: 20px;
+  border-radius: 10px;
+}
 footer {
   padding-left: 2vw;
   padding-right: 2vw;
@@ -526,4 +533,3 @@ footer {
     opacity: 1;
   }
 }
-
