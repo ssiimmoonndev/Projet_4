@@ -64,7 +64,7 @@
             >
               <div
                 class="formData">
-                <label for="first">Prénom</label><br>
+                <label>Prénom</label><br>
                 <input
                   class="text-control"
                   type="text"
@@ -75,7 +75,7 @@
               </div>
               <div
                 class="formData">
-                <label for="last">Nom</label><br>
+                <label>Nom</label><br>
                 <input
                   class="text-control"
                   type="text"
@@ -85,7 +85,7 @@
               </div>
               <div
                 class="formData">
-                <label for="email">E-mail</label><br>
+                <label>E-mail</label><br>
                 <input
                   class="text-control"
                   type="email"
@@ -95,7 +95,7 @@
               </div>
               <div
                 class="formData">
-                <label for="birthdate">Date de naissance</label><br>
+                <label>Date de naissance</label><br>
                 <input
                   class="text-control"
                   type="date"
@@ -105,7 +105,7 @@
               </div>
               <div
                 class="formData">
-                <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
+                <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
@@ -185,7 +185,7 @@
                   class="checkbox-input"
                   type="checkbox"
                   id="checkbox1"
-                  name="terms"
+                  checked
                 />
                 <label class="checkbox2-label" for="checkbox1" required>
                   <span class="checkbox-icon"></span>
@@ -195,19 +195,20 @@
                 <input class="checkbox-input" type="checkbox" id="checkbox2" />
                 <label class="checkbox2-label" for="checkbox2">
                   <span class="checkbox-icon"></span>
-                  Je Je souhaite être prévenu des prochains évènements.
+                  Je souhaite être prévenu des prochains évènements.
                 </label>
                 <br>
               </div>
               <input
                 class="btn-submit"
                 type="submit"
+                class="button"
                 value="C'est parti"
               />
             </form>
-            <div id="confirmationMessage" class="confirmation-message" style="display: none;">
-              <p>Merci ! Votre réservation a été reçue.</p>
-              <button onclick="closeConfirmation()">Fermer</button>
+            <div id="confirmationMessage" style="display: none;">
+                <p>Merci pour votre inscription</p>
+                <button class="btn-submit" onclick="closeConfirmation()">Fermer</button>
             </div>
           </div>
         </div>

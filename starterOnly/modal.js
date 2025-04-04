@@ -8,143 +8,143 @@ function editNav() {
 }
 
 // DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
-const closeBtn = document.querySelector(".close");
-const form = document.querySelector("form");
+const modalbg = document.querySelector(".bground"); // Séléctionne l'élément background de la modale
+const modalBtns = document.querySelectorAll(".modal-btn"); // Séléctionne l'élément bouton qui ouvre de la modale
+const formData = document.querySelectorAll(".formData"); // Séléctionne les éléments qui contiennent les données
+const closeBtn = document.querySelector(".close"); // Séléctionne le bouton qui ferme la modale
+const form = document.querySelector(".form"); // Séléctionne le formulaire
 
 // launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// close modal event
-closeBtn.addEventListener("click", closeModal);
+  modalBtns.forEach(btn => { // Parcourt chaque élément "btn"
+    btn.addEventListener("click", launchModal);
+}); // Ajoute un écouteur d'évènement 'click' à chaque bouton d'ouverture de la modale
 
 // launch modal form
 function launchModal() {
-  modalbg.style.display = "block";
+  modalbg.style.display = "block"; // Change la propriété d'affichage pour rendre la modale visible
 }
+
+// close modal event
+closeBtn.addEventListener("click", closeModal); // Ajoute un écouteur d'évènement 'click' au bouton de fermeture de la modale
 
 // close modal form
 function closeModal() {
-  modalbg.style.display = "none";
+  modalbg.style.display = "none"; // Change la propriété d'affichage pour cacher la modale
 }
 
-// Form validation
+// form elements
+const prenom = document.getElementById("first"); // Champ prénom
+const nom = document.getElementById("last"); // Champ nom
+const mail = document.getElementById("email"); // Champ mail
+const date = document.getElementById("birthdate"); // Champ date de naissance
+const participation = document.getElementById("quantity"); // Champ quantité de participations aux tournois
+const localisation = document.querySelectorAll("radio"); // Bouton radio de localisation
+const terms = document.querySelectorAll("checkbox1"); // Case à cocher pour les conditions
+
+// Fonction pour afficher des messages d'erreur de validation de formulaire
+const displayError = (field, message) => {
+  const formData = field.closest('.formData'); // Recherche l'élément parent le plus proche qui a la classe CSS '.formData' par rapport à l'élément 'field' qui a été passé en paramètre à la fonction.
+  const existingError = formData.querySelector('.error-message'); // Recherche s'il existe déjà un message d'erreur précédent dans l'élément parent
+  if (existingError) {
+    existingError.remove(); // Si un message d'erreur existait déjà, le supprimer pour éviter les doublons
+  }
+  const newError = document.createElement('div'); // Crée un nouvel élément HTML (div) pour afficher le message d'erreur
+  newError.className = 'error-message'; // Ajoute une classe CSS 'error-message' au nouvel élément pour le styliser
+  newError.textContent = message; // Définit le texte du message d'erreur passé en paramêtre à la fonction
+  formData.appendChild(newError); // Ajoute le nouveau message d'erreur comme enfant de l'élément parent du champ de formulaire. Cela va afficher le message d'erreur àcôté du champ concerné
+}
+
 function validate() {
-  let isValid = true;
+  let isValid = true; // Initialise une variable qui indique si le formulaire est valide
   
-  // Get form elements
-  const firstName = document.getElementById("first");
-  const lastName = document.getElementById("last");
-  const email = document.getElementById("email");
-  const birthdate = document.getElementById("birthdate");
-  const quantity = document.getElementById("quantity");
-  const locations = document.querySelectorAll('input[name="location"]');
-  const terms = document.getElementById("checkbox1");
-  
-  // Clear previous error messages
-  clearErrors();
-  
-  // Validate first name (min 2 characters, not empty)
-  if (firstName.value.trim().length < 2) {
-    displayError(firstName, "Le prénom doit contenir au moins 2 caractères.");
-    isValid = false;
+  // Prenom
+  const nameRegex = /^([a-zA-Z]{2,})$/; // Création d'une regex pour vérifier que le prénom contient uniquement des lettres en majuscules et minuscules et a une longueur minimale de 2 caractères
+  if (!nameRegex.test(prenom.value)) { // Vérifie si le prénom ne correspond pas à la regex
+    displayError(prenom, "Le prénom doit contenir au moins 2 caractères"); // Affcihe ce message d'erreur si la validation échoue
+    isValid = false; // Marque le formulaire comme invalide
   }
-  
-  // Validate last name (min 2 characters, not empty)
-  if (lastName.value.trim().length < 2) {
-    displayError(lastName, "Le nom doit contenir au moins 2 caractères.");
-    isValid = false;
+
+  // Nom
+  if (!nameRegex.test(nom.value)) { // Regex identique àcelle du prénom
+    displayError(nom, "Le nom doit contenir au moins 2 caractères"); // Affcihe ce message d'erreur si la validation échoue
+    isValid = false; // Marque le formulaire comme invalide
   }
-  
-  // Validate email (format)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email.value)) {
-    displayError(email, "Veuillez entrer une adresse email valide.");
-    isValid = false;
+
+  // Email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex qui vérifie le format d'une adresse mail
+  if (!emailRegex.test(mail.value)) { // Vérifie si l'email ne correspond pas au format attendu
+    displayError(mail, "Veuillez entrer une adresse mail valide"); // Affiche ce message d'erreur si la validation échoue
+    isValid = false;  // Marque le formulaire comme invalide
   }
-  
-  // Validate birthdate (not empty)
-  if (birthdate.value === "") {
-    displayError(birthdate, "Veuillez entrer votre date de naissance.");
-    isValid = false;
+
+  // Participation
+  if (participation.value === "" || isNaN(participation.value)) { // Vérifie si le champ est vide ou n'est pas un nombre
+    displayError(participation, "Veuillez entrer un nombre valide"); // Affcihe ce message d'erreur si la validation échoue
+    isValid = false;  // Marque le formulaire comme invalide
   }
-  
-  // Validate quantity (numeric value)
-  if (quantity.value === "" || isNaN(quantity.value)) {
-    displayError(quantity, "Veuillez entrer un nombre valide.");
-    isValid = false;
+
+  // Date
+  if (date.value === "") { // Vérifie si aucune date n'a étén sélectionnée
+    displayError(date, "Veuillez entrer votre date de naissance"); // Affcihe ce message d'erreur si aucune date n'est renseignée
+    isValid = false;  // Marque le formulaire comme invalide
   }
-  
-  // Validate location (one radio button selected)
-  let locationSelected = false;
-  locations.forEach((location) => {
-    if (location.checked) {
-      locationSelected = true;
+
+  // Localisation
+  const locations = document.querySelectorAll('input[name="location"]'); // Sélectionne tous les boutons radio de localisation
+  let locationSelected = false; // Variable pour suivre si une localisation est sélectionnée
+  locations.forEach((location) => { // Parcourt tous les boutons radio
+    if (location.checked) { // Vérifie si l'un d'eux est coché
+      locationSelected = true; // Marque comme sélectionné si l'un d'eux est coché
     }
   });
-  if (!locationSelected) {
-    const radioContainer = document.querySelector('.formData:nth-of-type(6)');
-    radioContainer.setAttribute('data-error', "Vous devez choisir une option.");
-    radioContainer.setAttribute('data-error-visible', "true");
-    isValid = false;
+  if (!locationSelected) { // Si aucune localisation n'est sélectionnée
+    displayError(locations[0], "Veuillez sélectionner une option"); // Affiche ce message d'erreur
+    isValid = false; // Marque le formulaire comme invalide
   }
-  
-  // Validate terms (checkbox checked)
-  if (!terms.checked) {
-    const termsContainer = document.querySelector('.formData:nth-of-type(7)');
-    termsContainer.setAttribute('data-error', "Vous devez vérifier que vous acceptez les termes et conditions.");
-    termsContainer.setAttribute('data-error-visible', "true");
-    isValid = false;
+
+  // Conditions générales
+  const terms = document.getElementById('checkbox1'); // Récupère la case à cocher des conditions
+  if (!terms.checked) { // Vérifie si les conditions ne sont pas acceptées
+    displayError(terms, "Vous devez accepter les termes et conditions."); // Affiche ce message d'erreur 
+    isValid = false; // Marque le formulaire comme invalide
   }
-  
-  return isValid;
-}
 
-// Helper function to display error messages
-function displayError(element, message) {
-  const parent = element.closest('.formData');
-  parent.setAttribute('data-error', message);
-  parent.setAttribute('data-error-visible', "true");
-}
-
-// Helper function to clear all error messages
-function clearErrors() {
-  const errorElements = document.querySelectorAll('.formData');
-  errorElements.forEach((element) => {
-    element.removeAttribute('data-error-visible');
-    element.removeAttribute('data-error');
+  // Sélection du bouton radio
+  let localisationSelected = false; // Initialise une variable pour suivre si une localisation est sélectionnée
+  locations.forEach((location) => { // Parcourt tous les boutons radio
+    if (location.checked) { // Vérifie si l'un d'eux est coché
+      localisationSelected = true; // Marque qu'une localisation est sélectionnée
+    }
   });
-}
 
-// Add form submit event listener
-form.addEventListener("submit", function(event) {
-  if (!validate()) {
-    event.preventDefault(); // Prevent form submission if validation fails
-    console.log(event)
+  if (localisationSelected === false) { // Si aucune localisation n'est sélectionnée
+    isValid = false // Marque le formulaire comme invalide
   }
-});
 
-// Affiche le message de confirmation
-function showConfirmation() {
-  document.querySelector(".modal-body form").style.display = "none";
-  document.getElementById("confirmationMessage").style.display = "block";
+  // Ici, ça veut dire que le formulaire est bon, donc gérer le message de confirmation avec son apparition et sa disparition
+  if (isValid === true) { // Si toutes les validations sont ok
+    showConfirmation(); // Affiche le message de confirmation
+    return true // Retourne true pour indiquer que le formulaire est valide
+  }
+
+  return isValid; // Retourne le statue de validation (true ou false)
 }
 
-// Ferme le message de confirmation
-function closeConfirmation() {
-  document.getElementById("confirmationMessage").style.display = "none"; // Cache le message
-  document.querySelector(".modal-body form").style.display = "block"; // Réaffiche le formulaire
+function showConfirmation() { // Fonction pour afficher le message de confirmation
+  document.querySelector(".modal-body form").style.display = "none"; // Cache le formulaire
+  document.getElementById("confirmationMessage").style.display = "flex"; // Affiche le message de confirmation
+}
+
+function closeConfirmation() { // Fonction pour fermer le message de confirmation
+  document.getElementById("confirmationMessage").style.display = "none"; // Cache le message de confirmation
+  document.querySelector(".modal-body form").style.display ="block"; // Affiche à nouveau le formulaire
   modalbg.style.display = "none"; // Ferme la modale
 }
 
-// Modifie la fonction de validation pour afficher le message
-document.querySelector("form[name='reserve']").addEventListener("submit", function(event) {
-  if (!validate()) {
+document.querySelector("form[name='reserve']").addEventListener("submit", function(event) { // Ajout d'un écouteur d'événement sur le formulaire lors de sa soumission
+  if (!validate()) { // Vérifie la validation du formulaire
     event.preventDefault(); // Empêche l'envoi si le formulaire est invalide
   } else {
     event.preventDefault(); // Empêche la soumission réelle pour la démonstration
-    showConfirmation(); // Affiche le message
-  }
-});
+    showConfirmation(); // Affiche le message de confirmation
+  }});
