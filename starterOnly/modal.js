@@ -58,7 +58,7 @@ function validate() {
   let isValid = true; // Initialise une variable qui indique si le formulaire est valide
   
   // Prenom
-  const nameRegex = /^([a-zA-Z]{2,})$/; // Création d'une regex pour vérifier que le prénom contient uniquement des lettres en majuscules et minuscules et a une longueur minimale de 2 caractères
+  const nameRegex = /^([a-zA-ZÀ-ÖØ-öø-ÿ]{2,})$/; // Création d'une regex pour vérifier que le prénom contient uniquement des lettres en majuscules et minuscules et a une longueur minimale de 2 caractères
   if (!nameRegex.test(prenom.value)) { // Vérifie si le prénom ne correspond pas à la regex
     displayError(prenom, "Le prénom doit contenir au moins 2 caractères"); // Affcihe ce message d'erreur si la validation échoue
     isValid = false; // Marque le formulaire comme invalide
@@ -135,10 +135,22 @@ function showConfirmation() { // Fonction pour afficher le message de confirmati
   document.getElementById("confirmationMessage").style.display = "flex"; // Affiche le message de confirmation
 }
 
-function closeConfirmation() { // Fonction pour fermer le message de confirmation
-  document.getElementById("confirmationMessage").style.display = "none"; // Cache le message de confirmation
-  document.querySelector(".modal-body form").style.display ="block"; // Affiche à nouveau le formulaire
-  modalbg.style.display = "none"; // Ferme la modale
+function closeConfirmation() {
+  // Cache le message de confirmation
+  document.getElementById("confirmationMessage").style.display = "none";
+  
+  // Réinitialise le formulaire en utilisant la méthode reset()
+  document.querySelector("form[name='reserve']").reset();
+  
+  // Supprime tous les messages d'erreur
+  const errorMessages = document.querySelectorAll('.error-message');
+  errorMessages.forEach(message => message.remove());
+  
+  // Réaffiche le formulaire
+  document.querySelector(".modal-body form").style.display ="block";
+  
+  // Ferme la modale
+  modalbg.style.display = "none";
 }
 
 document.querySelector("form[name='reserve']").addEventListener("submit", function(event) { // Ajout d'un écouteur d'événement sur le formulaire lors de sa soumission
